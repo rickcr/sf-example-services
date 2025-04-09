@@ -9,7 +9,8 @@ To run the unit test illustrating the work:
 
 1) Modify your jdbc information in test/resources/application-test.yml
 2) In the UtilitiesServicesIT class modify:
-
+   
+        String stage = "my_stage"; //intenral SF stage
         String query = "select * from YOUR_TABLE order by 1";
         String stageFileName = "my-ouptut-filename"; //what you want the files to be called that get downloaded from GET
         String downloadDir = "/Users/rickreumann/Downloads/stagecontents/"; //where you locally want the files to download to
