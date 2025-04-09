@@ -1,0 +1,9 @@
+env: test
+ 
+sfdb:
+  driverClassName: net.snowflake.client.jdbc.SnowflakeDriver
+  connectionTimeout: 480000
+  maximumPoolSize: 1
+  jdbcUrl: jdbc:snowflake://yourcompany.snowflakecomputing.com/?warehouse=your-warehouseH&db=your-db&schema=public&CLIENT_RESULT_COLUMN_CASE_INSENSITIVE=true
+  username: username
+  password: password
