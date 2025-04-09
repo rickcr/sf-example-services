@@ -1,9 +1,9 @@
 # sf-example-services
-This main purpose of this project is to demonstrate how you can combine multiple files from SF using GET to combine them into a single file. Currently, Snowflake only supports a max file size of 5GB, so if you need to dump a table into a file that will end up larger than 5GB, you'll need to gather up all the small files it produces and create one large from that. Note, the files it produces do not sort easily using a natural sort, so there is a Comparator in this project that will enable to be sorted correctly from your local file system.
+This main purpose of this project is to demonstrate how you could dump a large table into a Snowflake stage and then retrieve the multiple files (representing that table) Snowflake produces using GET, and then combining them into a single file. Currently, Snowflake only supports a max file size of 5GB, so if you need to dump a table into a file that will end up larger than 5GB, you'll need to gather up all the small files it produces and create one large from that. **NOTE:**, the files Snowflake produces will not sort correctly using a natural sort, so there is a Comparator in this project that will enable them to be sorted correctly from your local file system.
 
 The project also illustrates how to create a stage, use COPY INTO, and of course using GET to retrieve the files from the Stage.
 
-Note, it also uses Mybatis for the db work, but you cand directly see the queries being run in the UtilitiesMapper.
+The project uses Spring and Mybatis for the db work, but you can see the queries being run in the UtilitiesMapper and ajdust to whatever your using (Spring JDBC, Hibernate, etc)
 
 To run the unit test illustrating the work:
 
