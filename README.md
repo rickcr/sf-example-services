@@ -15,3 +15,5 @@ To run the unit test illustrating the work:
         String stageFileName = "my-ouptut-filename"; //what you want the files to be called that get downloaded from GET
         String downloadDir = "/Users/rickreumann/Downloads/stagecontents/"; //where you locally want the files to download to
         String outputFile = "/Users/rickreumann/Downloads/results.csv.gz"; //name of your final output file
+
+
