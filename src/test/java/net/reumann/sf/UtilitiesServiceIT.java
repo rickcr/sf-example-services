@@ -1,15 +1,10 @@
 package net.reumann.sf;
 
-import net.reumann.sf.BaseIT;
 import net.reumann.sf.mapper.UtilitiesMapper;
 import net.reumann.sf.service.UtilitiesService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
 
 @Slf4j
 public class UtilitiesServiceIT extends BaseIT {
@@ -28,13 +23,13 @@ public class UtilitiesServiceIT extends BaseIT {
         long maxFileSize = 5368709120L; //max 5gb
         String path = "1234"; //unique path in the stage to have table contents dump to
 
-        UtilitiesService.StageInfo stageInfo = UtilitiesService.StageInfo.builder().fileDelimiter(",").fileCompression("gzip").fileFormatType("CSV")
-                .maxFileSize(String.valueOf(maxFileSize)).overwrite("TRUE").single("FALSE").createHeader("TRUE").skipHeaderInCreateStage(0).build();
+        UtilitiesService.FileInfo fileInfo = UtilitiesService.FileInfo.builder().fileDelimiter(",").fileCompression("gzip").fileFormatType("CSV")
+                .maxFileSize(String.valueOf(maxFileSize)).overwrite("TRUE").single("FALSE").createHeader("TRUE").build();
 
          
         if (utilitiesMapper.checkStageName(stage.toUpperCase()) == null) {
             log.debug("stage not found, so creating it");
-            utilitiesMapper.createStage(stage, stageInfo);
+            utilitiesMapper.createStage(stage);
         } 
 
         String query = "select * from YOUR_TABLE order by 1";
@@ -47,7 +42,7 @@ public class UtilitiesServiceIT extends BaseIT {
                 .stage(stage)
                 .path(path)
                 .stageFileName(stageFileName)
-                .stageInfo(stageInfo)
+                .fileInfo(fileInfo)
                 .downloadDir(downloadDir)
                 .build();
 

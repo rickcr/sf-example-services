@@ -30,7 +30,7 @@ public class UtilitiesService {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         utilitiesMapper.copyTableIntoStage(tableToStageData.query, tableToStageData.stage, tableToStageData.path,
-                tableToStageData.stageFileName, tableToStageData.stageInfo);
+                tableToStageData.stageFileName, tableToStageData.fileInfo);
         stopWatch.stop();
         log.info("Total time to copy table {} into stage {}, {}", tableToStageData.query, tableToStageData.stage, stopWatch);
     }
@@ -104,11 +104,11 @@ public class UtilitiesService {
         String stage = tableToStageData.stage;
         String stageFound = utilitiesMapper.checkStageName(stage.toUpperCase());
         if (stageFound == null) {
-            utilitiesMapper.createStage(stage, tableToStageData.stageInfo);
+            utilitiesMapper.createStage(stage);
         }
         copyTableIntoStage(tableToStageData);
         getFileFromStage(tableToStageData);
-        int rows = mergeFilesIntoAnotherFile(tableToStageData.downloadDir, tableToStageData.outputFileFullName, tableToStageData.stageInfo.fileDelimiter);
+        int rows = mergeFilesIntoAnotherFile(tableToStageData.downloadDir, tableToStageData.outputFileFullName, tableToStageData.fileInfo.fileDelimiter);
         utilitiesMapper.removeFilesFromStage(tableToStageData.stage, tableToStageData.path);
         return  rows;
     }
@@ -168,7 +168,7 @@ public class UtilitiesService {
     }
 
     @Builder
-    public static class StageInfo {
+    public static class FileInfo {
         public String fileFormatType; //CSV, etc
         public String fileDelimiter; //','
         public String fileCompression; //NONE
@@ -176,7 +176,6 @@ public class UtilitiesService {
         public String single; //FALSE
         public String maxFileSize; //5368709120 5GB 5_368_709_120
         public String createHeader; //used in COPY INTO
-        public int skipHeaderInCreateStage; //0 or 1
     }
 
     @Builder
@@ -187,6 +186,6 @@ public class UtilitiesService {
         public String stageFileName;
         public String downloadDir;
         public String outputFileFullName;
-        public StageInfo stageInfo;
+        public FileInfo fileInfo;
     }
 }

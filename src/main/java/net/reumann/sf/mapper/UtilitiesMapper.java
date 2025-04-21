@@ -4,31 +4,26 @@ import net.reumann.sf.service.UtilitiesService;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.session.ResultHandler;
-
-import java.util.List;
 
 @Mapper
 public interface UtilitiesMapper {
 
-    @Update("""
-            CREATE STAGE ${stageName}  
-            FILE_FORMAT = (TYPE = 'CSV'  FIELD_DELIMITER = '${stageInfo.fileDelimiter}' SKIP_HEADER = ${stageInfo.skipHeaderInCreateStage})""")
-    void createStage(String stageName, UtilitiesService.StageInfo stageInfo);
+    @Update("CREATE STAGE ${stageName}")
+    void createStage(String stageName);
 
     @Update("""
           COPY INTO @${stage}/${path}/${stageFileName} from (${query})
           FILE_FORMAT = (
-                          TYPE = '${stageInfo.fileFormatType}'
-                          FIELD_DELIMITER = '${stageInfo.fileDelimiter}'
-                          COMPRESSION = '${stageInfo.fileCompression}'
-                      )
+              TYPE = '${stageInfo.fileFormatType}'
+              FIELD_DELIMITER = '${stageInfo.fileDelimiter}'
+              COMPRESSION = '${stageInfo.fileCompression}' 
+          )
          HEADER = ${stageInfo.createHeader}
          OVERWRITE = ${stageInfo.overwrite}
          SINGLE = ${stageInfo.single}
          MAX_FILE_SIZE = ${stageInfo.maxFileSize}
        """)
-    void copyTableIntoStage(String query, String stage, String path, String stageFileName, UtilitiesService.StageInfo stageInfo);
+    void copyTableIntoStage(String query, String stage, String path, String stageFileName, UtilitiesService.FileInfo stageInfo);
 
     @Update("GET @${stage}/${path}/${stageFileName} file://${filePath}")
     void getFileFromStage(String stage, String path, String stageFileName, String filePath);
